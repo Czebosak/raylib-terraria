@@ -71,6 +71,7 @@ void chunk_generate(Chunk* chunk_ptr, long seed[3]) {
         TraceLog(LOG_INFO, "yessir2");
         // Generate grass
         double noise_sum[CHUNK_SIZE_X] = { 0.0 };
+        TraceLog(LOG_INFO, "WEEEEEEEEEEE ARE HEEREEEE %d : %d", chunk_ptr->id, chunk_ptr->x);
         get_noise_sum(seed, noise_sum, chunk_ptr->x);
         for (int tile_i = 0; tile_i < CHUNK_SIZE_X; tile_i++) {
             int grass_y = round(15.0 - (noise_sum[tile_i] * 2.0));

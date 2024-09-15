@@ -42,6 +42,16 @@ int main() {
     Chunk* chunk_2_ptr = chunk_register(6);
     Chunk* chunk_3_ptr = chunk_register(25);
     Chunk* chunk_4_ptr = chunk_register(26);
+    Chunk* chunk_5_ptr = chunk_register(45);
+    Chunk* chunk_6_ptr = chunk_register(46);
+
+    chunk_3_ptr->x = 20;
+    chunk_4_ptr->x = 20;
+    chunk_5_ptr->x = 40;
+    chunk_6_ptr->x = 40;
+    chunk_2_ptr->y = 20;
+    chunk_4_ptr->y = 20;
+    chunk_6_ptr->y = 20;
 
     long cur_time = time(NULL);
     long seed[3] = { cur_time, cur_time * 0.5, cur_time - 1 };
@@ -50,10 +60,6 @@ int main() {
     chunk_generate(chunk_2_ptr, seed);
     chunk_generate(chunk_3_ptr, seed);
     chunk_generate(chunk_4_ptr, seed);
-    chunk_3_ptr->x = 20;
-    chunk_4_ptr->x = 20;
-    chunk_2_ptr->y = 20;
-    chunk_4_ptr->y = 20;
 
     /*RenderTexture2D screen_texture = LoadRenderTexture(screen_width, screen_height);*/
     while(!WindowShouldClose()) {
@@ -70,7 +76,7 @@ int main() {
         EndDrawing();
     }
 
-    TraceLog(LOG_INFO, "%d", chunk_2_ptr->tiles[0][0]);
+    TraceLog(LOG_INFO, "%d", chunk_3_ptr->x);
 
     texture_tile_unload_all();
     /*UnloadRenderTexture(screen_texture);*/
