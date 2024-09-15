@@ -1,0 +1,2 @@
+-Iexternal/raylib/src/
+-Iexternal/PerlinNoise/
