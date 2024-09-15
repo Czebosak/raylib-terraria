@@ -16,32 +16,44 @@ int screen_width = 640;
 int screen_height = 480;
 
 int main() {
-    /*chunk_init();*/
-    /*chunk_register(13);*/
-    /*chunk_register(14);*/
-    /*chunk_register(33);*/
-    /*chunk_register(34);*/
-    /*chunk_array_print();*/
 
     /*SetTraceLogLevel(LOG_ERROR); */
 
     InitWindow(screen_width*2, screen_height*2, "Yessir x3");
 
-    Texture sprite = texture_tile_get(1);
+    /*Texture sprite = texture_tile_get(1);*/
+    /**/
+    /*double noise[3][20];*/
+    /*get_noise(time(NULL), &noise[0][0]);*/
+    /*get_noise(time(NULL) * 0.5, &noise[1][0]);*/
+    /*get_noise(time(NULL) - 1, &noise[2][0]);*/
+    /*int tile_y[TILE_AMOUNT];*/
+    /*for (int tile_i = 0; tile_i < TILE_AMOUNT; tile_i++) {*/
+    /*    float noise_sum = 0.0;*/
+    /*    for (int noise_i = 0; noise_i < 3; noise_i++) {*/
+    /*        noise_sum += noise[noise_i][tile_i];*/
+    /*    }*/
+    /**/
+    /*    tile_y[tile_i] = roundf(25.0 - noise_sum * 2.0);*/
+    /*}*/
 
-    double noise[3][20];
-    get_noise(time(NULL), &noise[0][0]);
-    get_noise(time(NULL) * 0.5, &noise[1][0]);
-    get_noise(time(NULL) - 1, &noise[2][0]);
-    int tile_y[TILE_AMOUNT];
-    for (int tile_i = 0; tile_i < TILE_AMOUNT; tile_i++) {
-        float noise_sum = 0.0;
-        for (int noise_i = 0; noise_i < 3; noise_i++) {
-            noise_sum += noise[noise_i][tile_i];
-        }
+    chunk_init();
+    Chunk* chunk_1_ptr = chunk_register(5);
+    Chunk* chunk_2_ptr = chunk_register(6);
+    Chunk* chunk_3_ptr = chunk_register(25);
+    Chunk* chunk_4_ptr = chunk_register(26);
 
-        tile_y[tile_i] = roundf(25.0 - noise_sum * 2.0);
-    }
+    long cur_time = time(NULL);
+    long seed[3] = { cur_time, cur_time * 0.5, cur_time - 1 };
+    /*chunk_generate(chunk_1_ptr, seed);*/
+    chunk_generate(chunk_1_ptr, seed);
+    chunk_generate(chunk_2_ptr, seed);
+    chunk_generate(chunk_3_ptr, seed);
+    chunk_generate(chunk_4_ptr, seed);
+    chunk_3_ptr->x = 20;
+    chunk_4_ptr->x = 20;
+    chunk_2_ptr->y = 20;
+    chunk_4_ptr->y = 20;
 
     /*RenderTexture2D screen_texture = LoadRenderTexture(screen_width, screen_height);*/
     while(!WindowShouldClose()) {
@@ -51,11 +63,14 @@ int main() {
         BeginDrawing();
             /*DrawTextureEx(screen_texture.texture, (Vector2){screen_width*2.0f, screen_height*2.0f}, 180.0, 2.0, WHITE);*/
             ClearBackground(WHITE);
-            for (int i = 0; i < TILE_AMOUNT; i++) {
-                render_tile(1, i, tile_y[i]);
-            }
+            render_chunks();
+            /*for (int i = 0; i < TILE_AMOUNT; i++) {*/
+            /*    render_tile(1, i, tile_y[i]);*/
+            /*}*/
         EndDrawing();
     }
+
+    TraceLog(LOG_INFO, "%d", chunk_2_ptr->tiles[0][0]);
 
     texture_tile_unload_all();
     /*UnloadRenderTexture(screen_texture);*/
